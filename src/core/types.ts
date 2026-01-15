@@ -37,12 +37,14 @@ export type QueryType =
 export interface ParsedQuery {
     type: QueryType;
     tableName: string;
+    schema?: TableSchema;
     columns?: string[];
     values?: any[];
     where?: WhereClause;
     join?: JoinClause;
     setClause?: Record<string, any>;
 }
+
 
 export interface WhereClause {
     column: string;
