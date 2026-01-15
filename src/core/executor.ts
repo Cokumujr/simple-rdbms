@@ -1,9 +1,11 @@
 import { SchemaValidator } from "./schema";
+import { Storagedb } from "./storage";
 import { Column, ParsedQuery, TableSchema } from "./types";
 
 
+
 export class QueryExecutor {
-    constructor(private storage: Storage) { }
+    constructor(private storage: Storagedb) { }
 
     async execute(query: ParsedQuery): Promise<any> {
         switch (query.type) {
@@ -127,7 +129,7 @@ export class QueryExecutor {
         }
 
         // Remove MongoDB _id
-        results = results.map(({ _id, ...rest }: Record<string, any>) => rest);
+        results = results.map(({ _id, ...rest }: Record<string, any>) => rest) as any[];
 
 
         return results;

@@ -1,7 +1,7 @@
 import { MongoClient, Db, Collection } from "mongodb";
 import { TableSchema } from "./types";
 
-export class Storage {
+export class Storagedb {
     private client: MongoClient;
     private db!: Db;
     private metadataCollection!: Collection;
@@ -10,6 +10,7 @@ export class Storage {
     constructor(private uri: string = process.env.MONGO_URI!) {
         this.client = new MongoClient(this.uri)
     }
+
 
     async connect(dbName: string = process.env.DB_NAME!): Promise<void> {
         if (this.connected) return;
