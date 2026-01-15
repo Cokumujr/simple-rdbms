@@ -1,56 +1,83 @@
-// Data types supported
-export enum DataType {
-    INT = 'INT',
-    VARCHAR = 'VARCHAR',
-    BOOLEAN = 'BOOLEAN',
-    DATE = 'DATE'
-}
+import { MongoClient, Db, Collection } from "mongodb";
+import { TableSchema } from "./types";
 
-// Column definition
-export interface Column {
-    type: DataType;
-    maxLength?: number;
-    primaryKey?: boolean;
-    unique?: boolean;
-    autoIncrement?: boolean;
-    nullable?: boolean;
-}
+export class Storage {
+    private client: MongoClient;
+    private db!: Db;
+    private metadataCollection!: Collection;
+    private connected = false;
 
-// Table schema
-export interface TableSchema {
-    name: string;
-    columns: Record<string, Column>;
-    indexes: string[];
-    nextId?: number;
-}
+    constructor(private uri: string = process.env.MONGO_URI!) {
+        this.client = new MongoClient(this.uri)
+    }
 
-// Query types
-export type QueryType =
-    | 'CREATE_TABLE'
-    | 'INSERT'
-    | 'SELECT'
-    | 'UPDATE'
-    | 'DELETE'
-    | 'JOIN';
+    async connect(dbName: string = process.env.DB_NAME!): Promise<void> {
+        if (this.connected) return;
 
-// Parsed query structure
-export interface ParsedQuery {
-    type: QueryType;
-    tableName: string;
-    columns?: string[];
-    values?: any[];
-    where?: WhereClause;
-    join?: JoinClause;
-    setClause?: Record<string, any>;
-}
 
-export interface WhereClause {
-    column: string;
-    operator: '=' | '!=' | '>' | '<' | '>=' | '<=';
-    value: any;
-}
+        await this.client.connect();
 
-export interface JoinClause {
-    table: string;
-    on: { left: string; right: string };
+        this.db = this.client.db(dbName);
+
+        this.metadataCollection = this.db.collection('__simpledb_metadata');
+        this.connected = true;
+
+        //initialize metadata if it doesn't exist
+        const metadata = await this.metadataCollection.findOne({});
+        if (!metadata) {
+            await this.metadataCollection.insertOne({ tables: {} })
+        }
+
+    }
+
+    async disconnect(): Promise<void> {
+        await this.client.close()
+        this.connected = false;
+    }
+
+    //get all table schemas
+    async getMetadata(): Promise<{ tables: Record<string, TableSchema> }> {
+        const doc = await this.metadataCollection.findOne({});
+
+
+        return (doc ?? { tables: {} }) as { tables: Record<string, TableSchema> };
+    }
+
+    // Save table schema 
+    async saveTableSchema(tableName: string, schema: TableSchema): Promise<void> {
+        await this.metadataCollection.updateOne(
+            {},
+            { $set: { [`tables.${tableName}`]: schema } }
+        )
+    }
+
+    //get table schema
+    async getTableSchema(tableName: string): Promise<TableSchema | null> {
+        const metadata = await this.getMetadata();
+        return metadata.tables[tableName] || null;
+
+    }
+
+    //check if table exists
+    async tableExists(tableName: string): Promise<Boolean> {
+        const schema = await this.getTableSchema(tableName)
+        return schema !== null
+    }
+
+    // get collection data
+    getCollection(tableName: string): Collection {
+        return this.db.collection(tableName)
+    }
+
+    //drop table
+    async dropTable(tableName: string): Promise<void> {
+        await this.getCollection(tableName).drop();
+        await this.metadataCollection.updateOne(
+            {},
+            { $unset: { [`tables.${tableName}`]: '' } }
+        )
+    }
+
+
+
 }
