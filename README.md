@@ -1,5 +1,8 @@
+I see exactly what happened—the section below your architecture is missing the **triple backticks** (```) needed to define code blocks, and the headers are using a single `#` which makes them giant page titles instead of organized sub-sections.
 
+Here is the corrected, complete `README.md` content. You can copy everything inside the box below and paste it directly into your VS Code file.
 
+```markdown
 # SimpleDB - Node.js & MongoDB RDBMS Project
 
 SimpleDB is a lightweight, MongoDB-backed relational database system (RDBMS) built in **Node.js** and **TypeScript**. It supports basic SQL operations including `CREATE TABLE`, `INSERT`, `SELECT`, `UPDATE`, `DELETE`, and `JOIN`.
@@ -8,7 +11,7 @@ This project demonstrates how to implement a custom SQL parser, executor, and st
 
 ---
 
-##  Features
+## 🌟 Features
 
 - **SQL Parser supporting:**
   - `CREATE TABLE`, `INSERT INTO`, `SELECT` (with `WHERE` and `JOIN`), `UPDATE`, and `DELETE`.
@@ -20,7 +23,7 @@ This project demonstrates how to implement a custom SQL parser, executor, and st
 
 ---
 
-##  Architecture
+## 🏗 Architecture
 
 
 
@@ -41,74 +44,109 @@ src/
 │   └── public/       # Frontend assets
 └── index.ts          # Entry point
 
---- 
+```
 
-## Getting Started
-# Prerequisites
--Node.js >= 18
+---
 
--MongoDB Atlas or local MongoDB instance
+## 🚀 Getting Started
 
-# Installation
-Bash
+### Prerequisites
 
--git clone <your-repo-url>
--cd RDBMS
--npm install
-# Configuration
-Create a .env file in the project root:
+* Node.js >= 18
+* MongoDB Atlas or local MongoDB instance
 
+### Installation
+
+```bash
+git clone <your-repo-url>
+cd RDBMS
+npm install
+
+```
+
+### Configuration
+
+Create a `.env` file in the project root:
+
+```env
 MONGO_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/
 DB_NAME=node-RDBMS
 
-## Usage
-Running the REPL
+```
+
+---
+
+## 🛠 Usage
+
+### Running the REPL
+
 Execute SQL commands interactively in your terminal.
 
-Bash
-
+```bash
 npm run repl
-Use exit to quit the REPL.
 
-# Running the Web Demo
+```
+
+* Use `exit` to quit the REPL.
+
+### Running the Web Demo
+
 Execute commands and see results directly in the browser.
 
-Bash
-
+```bash
 npm run web
-URL: http://localhost:8000
 
-## SQL Examples
-# Create Table
-SQL
+```
 
+* **URL:** [http://localhost:8000]
+
+---
+
+## 📑 SQL Examples
+
+### Create Table
+
+```sql
 CREATE TABLE users (
   id INT PRIMARY KEY,
   name VARCHAR(255),
   email VARCHAR(255) UNIQUE,
   age INT
 );
-# Insert Data
-SQL
 
+```
+
+### Insert Data
+
+```sql
 INSERT INTO users (name, email, age) VALUES ('John', 'john@example.com', 30);
-# Select Data
-SQL
 
+```
+
+### Select Data
+
+```sql
 SELECT * FROM users WHERE age > 25;
-# Update & Delete
-SQL
 
+```
+
+### Update & Delete
+
+```sql
 UPDATE users SET age = 31 WHERE name = 'John';
 DELETE FROM users WHERE id = 1;
 
-# Tech Stack
-Runtime: Node.js & TypeScript
+```
 
-Database: MongoDB
+---
 
-Server: Express (Web demo)
+## 🧰 Tech Stack
 
-CLI: Readline (REPL)
+* **Runtime:** Node.js & TypeScript
+* **Database:** MongoDB
+* **Server:** Express (Web demo)
+* **CLI:** Readline (REPL)
+* **Frontend:** HTML/CSS/JS
 
-Frontend: HTML/CSS/JS
+```
+
