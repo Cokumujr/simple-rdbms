@@ -3,12 +3,12 @@ import dotenv from "dotenv";
 dotenv.config();
 
 
-import { Storage } from '../core/storage';
+import { Storagedb } from '../core/storage';
 
 async function testStorage() {
-    console.log('🧪 Testing Storage...\n');
+    console.log(' Testing Storage...\n');
 
-    const storage = new Storage(process.env.MONGO_URI!);
+    const storage = new Storagedb(process.env.MONGO_URI!);
 
     try {
         // Test 1: Connect to MongoDB

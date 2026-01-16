@@ -4,7 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "ts-node src/index.ts",
+    "repl": " ts-node src/index.ts",
+    "test:parser": "ts-node src/test/parsertest.ts ",
+    "test:storage": "ts-node src/test/storage.ts ",
+    "build": "tsc ",
+    "start": "node dist/index.js"
   },
   "keywords": [],
   "author": "",

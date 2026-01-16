@@ -1,6 +1,10 @@
 import * as readline from 'readline';
 import { SimpleDB } from '../core';
 
+import dotenv from "dotenv";
+dotenv.config();
+
+
 export async function startREPL() {
     console.clear();
     console.log('    ');

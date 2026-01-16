@@ -8,7 +8,10 @@ export class Storagedb {
     private connected = false;
 
     constructor(private uri: string = process.env.MONGO_URI!) {
-        this.client = new MongoClient(this.uri)
+        this.client = new MongoClient(uri, {
+            // tls: true,
+            // tlsAllowInvalidCertificates: true
+        });
     }
 
 
