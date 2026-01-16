@@ -26,14 +26,20 @@ export class SimpleDB {
 
     // Main entry point: run any SQL
     async query(sql: string): Promise<any> {
-        console.log(`Executing SQL: ${sql}`);
+        try {
 
-        // 1. Parse
-        const parsedQuery = SQLParser.parse(sql);
+            console.log(`Executing SQL: ${sql}`);
 
-        // 2. Execute
-        const result = await this.executor.execute(parsedQuery);
+            // 1. Parse
+            const parsedQuery = SQLParser.parse(sql);
 
-        return result;
+            // 2. Execute
+            const result = await this.executor.execute(parsedQuery);
+
+            return result;
+        } catch (error: any) {
+            console.error(`Query failed : ${error.message}`);
+            throw error;
+        }
     }
 }
