@@ -1,16 +1,17 @@
 import express from "express";
 import cors from "cors";
 import dotenv from 'dotenv';
+import path from 'path';
 import { SimpleDB } from "../core";
 
 
 const app = express();
-const PORT = 8017
+const PORT = 8000
 
 dotenv.config()
 app.use(cors());
 app.use(express.json());
-app.use(express.static('public')); // serve frontend files
+app.use(express.static(path.join(__dirname, 'public')));
 
 const db = new SimpleDB(process.env.MONGO_URI!)
 

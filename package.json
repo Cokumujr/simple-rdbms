@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "ts-node src/index.ts",
     "repl": " ts-node src/index.ts",
+    "web": "ts-node src/web-demo/server.ts ",
     "test:parser": "ts-node src/test/parsertest.ts ",
     "test:storage": "ts-node src/test/storage.ts ",
     "build": "tsc ",

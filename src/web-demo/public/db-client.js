@@ -1,5 +1,5 @@
 
-export async function runSQL(sql: string) {
+export async function runSQL(sql) {
     const res = await fetch('/query', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
