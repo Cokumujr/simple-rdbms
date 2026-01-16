@@ -1,45 +1,15 @@
-import express from "express";
-import cors from "cors";
-import dotenv from 'dotenv';
-import { SimpleDB } from "../core";
 
+export async function runSQL(sql: string) {
+    const res = await fetch('/query', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sql })
+    });
 
-const app = express();
-const PORT = 8017
-
-dotenv.config()
-app.use(cors());
-app.use(express.json());
-app.use(express.static('public')); // serve frontend files
-
-const db = new SimpleDB(process.env.MONGO_URI!)
-
-const connectdb = async () => {
-    try {
-        await db.connect(process.env.DB_NAME!);
-        console.log('connected to the simpleDB database')
-    } catch (error: any) {
-        console.error('Failed to connect to DB:', error);
-        process.exit(1);
+    if (!res.ok) {
+        const text = await res.text();
+        throw new Error(text);
     }
+
+    return res.json();
 }
-
-connectdb();
-
-//endpoint used to execute SQL queries
-app.post('/query', async (req, res) => {
-    const { sql } = req.body
-
-    if (!sql) return res.status(400).json({ error: 'SQL is required' });
-
-    try {
-        const result = await db.query(sql);
-        res.json({ success: true, result });
-    } catch (err: any) {
-        res.status(400).json({ success: false, error: err.message });
-    }
-
-
-})
-
-app.listen(PORT, () => console.log(`Web demo running on http://localhost:${PORT}`));
