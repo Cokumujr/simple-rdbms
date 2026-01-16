@@ -1,8 +1,4 @@
-I see exactly what happened—the section below your architecture is missing the **triple backticks** (```) needed to define code blocks, and the headers are using a single `#` which makes them giant page titles instead of organized sub-sections.
 
-Here is the corrected, complete `README.md` content. You can copy everything inside the box below and paste it directly into your VS Code file.
-
-```markdown
 # SimpleDB - Node.js & MongoDB RDBMS Project
 
 SimpleDB is a lightweight, MongoDB-backed relational database system (RDBMS) built in **Node.js** and **TypeScript**. It supports basic SQL operations including `CREATE TABLE`, `INSERT`, `SELECT`, `UPDATE`, `DELETE`, and `JOIN`.
@@ -58,7 +54,7 @@ src/
 ### Installation
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/Cokumujr/simple-rdbms
 cd RDBMS
 npm install
 
